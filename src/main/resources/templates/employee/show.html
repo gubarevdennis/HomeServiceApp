@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Работник</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/logout}">
+    <input type="submit" value="Выйти">
+</form>
+
+<br/>
+<br/>
+
+<h4> ФИО работника: </h4>
+<p th:text="${employee.getName()}" >value</p>
+<h4> ID работника: </h4>
+<p th:text="${employee.getId()}" >value</p>
+<h4> Должность: </h4>
+<p th:text="${employee.getPosition()}" >value</p>
+<h4> Компания: </h4>
+<p th:text="${employee.getCompany()}" >value</p>
+<h4> Рейтинг: </h4>
+<p th:text="${employee.getGrade()}" >value</p>
+<h4> Дополнительная информация: </h4>
+<p th:text="${employee.getInformation()}" >value</p>
+<h4> Дата и время создания аккаунта работника: </h4>
+<p th:text="${employee.getDateAndTimeOfCreate()}" >value</p>
+
+<a th:href="@{/employee/edit/{id}(id=${employee.getId()})}">Edit</a>
+
+<br/>
+
+<form th:method="DELETE" th:action="@{/employee/{id}(id=${employee.getId()})}">
+    <br/>
+    <input type="submit" value="Удалить работника"/>
+</form>
+
+<br/>
+<hr/>
+
+
+<h4> Заказы: </h4>
+<div th:each="task : ${assignedTask}">
+
+    <a th:href="@{/task/{id}(id=${task.getId()})}"
+       th:text="${task.getName() + ', статус: ' + task.getStatus() + ', время и дата: ' + task.getDateAndTimeOfDone()}"> Order </a>
+
+</div>
+
+
+</body>
+</html>

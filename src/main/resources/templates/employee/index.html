@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Все работники</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/logout}">
+    <input type="submit" value="Выйти">
+</form>
+
+<br/>
+<br/>
+
+<div th:each="employee : ${employeeAll}">
+
+    <a th:href="@{/employee/{id}(id=${employee.getId()})}"
+    th:text="'Работник: ' + ${employee.getName() + ', Рейтинг: ' + employee.getGrade()}"> User </a>
+
+</div>
+
+<br/>
+<hr/>
+
+<a href="/employee/new">Добавить работника</a>
+
+</body>
+</html>

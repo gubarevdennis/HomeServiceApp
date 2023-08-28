@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Обновить заказ</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/task/{id}(id=${task.getId()})}" th:object="${task}">
+    <label for="name">Название заказа:</label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error message</div>
+    <br/>
+    <label for="status">Статус: </label>
+    <input type="text" th:field="*{status}" id="status"/>
+    <div style="color:red"  th:if="${#fields.hasErrors('status')}" th:errors="*{status}">Error message</div>
+    <br/>
+    <label for="message">Опсание: </label>
+    <input type="text" th:field="*{message}" id="message"/>
+    <div style="color:red"  th:if="${#fields.hasErrors('message')}" th:errors="*{message}">Error message</div>
+    <br/>
+    <input type="submit" value="Обновить заказ"/>
+</form>
+
+<hr>
+
+</body>
+</html>

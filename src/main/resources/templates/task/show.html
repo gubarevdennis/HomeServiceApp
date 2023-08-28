@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" charset="UTF-8">
+    <title>Заказ</title>
+    <link rel="stylesheet" href="/css/task.css" />
+</head>
+<body>
+<noscript>
+    <h2>Sorry! Your browser doesn't support Javascript</h2>
+</noscript>
+
+<h4> Название заказа: </h4>
+<p th:text="${task.getName()}" >value</p>
+<h4> ID заказа: </h4>
+<p th:text="${task.getId()}" >value</p>
+<h4> Статус: </h4>
+<p th:text="${task.getStatus()}" >value</p>
+<h4 th:unless="${task.getMessage().isEmpty()}" > Описание: </h4>
+<p th:unless="${task.getMessage().isEmpty()}" th:text="${task.getMessage()}" >value</p>
+<h4 th:if="${task.getGrade()}" > Оценка за выполнение: </h4>
+<p th:if="${task.getGrade()}" th:text="${task.getGrade()}" >value</p>
+<h4> Дата и время отправки: </h4>
+<p th:text="${task.getDateAndTimeOfSend()}" >value</p>
+<h4 th:if="${task.getDateAndTimeOfGet()}"> Дата и время взятия в работу: </h4>
+<p th:text="${task.getDateAndTimeOfGet()}" >value</p>
+<h4 th:if="${task.getDateAndTimeOfDone()}"> Дата и время завершения: </h4>
+<p th:text="${task.getDateAndTimeOfDone()}" >value</p>
+
+<a th:href="@{/task/edit/{id}(id=${task.getId()})}">Edit</a>
+
+<br/>
+
+
+<form th:method="DELETE" th:action="@{/task/{id}(id=${task.getId()})}">
+    <br/>
+    <input type="submit" value="Удалить заказ"/>
+</form>
+
+<br/>
+<hr/>
+
+
+<form th:unless="${task.getDateAndTimeOfDone()}" th:method="PATCH" th:object="${employee}" th:action="@{/employee/takeOrder/{id}(id=${task.getId()})}">
+    <label for="employee"><h4>Выберите исполнителя: </h4></label>
+
+    <select th:object="${employee}" th:field="*{id}" id="employee">
+        <option th:each="employee : ${employeeAll}" th:value="${employee.getId()}"
+                th:text="${employee.getName()} + ', рейтинг: ' + ${employee.getGrade()} "></option>
+    </select>
+
+    <br/>
+    <br/>
+    <input type="submit" value="Назначить исполнителя" />
+    <hr th:unless="${task.getDateAndTimeOfDone()}" />
+
+</form>
+
+<h4 th:unless="${assignedEmployee.isEmpty()}"> Назначенные исполнители: </h4>
+
+<div th:each="employee : ${assignedEmployee}">
+
+    <a th:href="@{/employee/{id}(id=${employee.getId()})}"
+       th:text="${employee.getName() + ', ' + employee.getCompany()}"> User </a>
+
+</div>
+
+<hr th:if="${not assignedEmployee.isEmpty()}" th:unless="${task.getDateAndTimeOfDone()}" />
+
+<form th:unless="${task.getDateAndTimeOfDone()}" th:method="PATCH" th:object="${task}" th:action="@{/task/status/{id}(id=${task.getId()})}">
+    <input type="submit" value="Завершить заказ"/>
+</form>
+
+<hr th:unless="${task.getDateAndTimeOfDone()}" />
+
+
+<form th:if="${task.getDateAndTimeOfDone()}" th:unless="${task.getGrade()}" th:method="PATCH" th:object="${task}" th:action="@{/task/grade/{id}(id=${task.getId()})}">
+
+
+    <label for="grade"><h4>Оцените заказ: </h4></label>
+
+    <select th:object="${task}" th:field="*{grade}" id="grade">
+        <option  th:value="1" th:text="1"></option>
+        <option  th:value="2" th:text="2"></option>
+        <option  th:value="3" th:text="3"></option>
+        <option  th:value="4" th:text="4"></option>
+        <option  th:value="5" th:text="5"></option>
+    </select>
+
+    <br/>
+    <br/>
+    <input type="submit" value="Отправить оценку"/>
+</form>
+
+    <br/>
+    <br/>
+
+    <div id="username-page">
+        <div class="username-page-container">
+            <h1 class="title">Type your username</h1>
+            <form id="usernameForm" name="usernameForm">
+                <div  class="form-group" >
+                    <h4> Имя отправителя: </h4>
+                    <select th:object="${employee}" th:field="*{name}" id="senderName" placeholder="SenderName" autocomplete="off" class="form-control">
+                        <option th:each="employee : ${employeeAll}" th:value="${employee.getName()}"
+                                th:text="${employee.getName()} + ', рейтинг: ' + ${employee.getGrade()} "></option>
+                    </select>
+
+                    <select th:object="${resident}" th:field="*{name}" id="residentName" placeholder="ResidentName" autocomplete="off" class="form-control" hidden="true">
+                        <option th:value="${resident.getName()}" th:text="${resident.getName()}"></option>
+                    </select>
+
+                    <h4> Роль отправителя: </h4>
+                    <select id="senderRole" placeholder="SenderRole" autocomplete="off" class="form-control">
+                        <option th:text ="Работник" th:value="ROLE_EMPLOYEE">Работник</option>
+                        <option th:text ="Резидент" th:value="ROLE_RESIDENT">Резидент</option>
+                    </select>
+                </div>
+                <div class="form-group" hidden="true">
+                    <h4> ID чата: </h4>
+                    <input  th:text="${task.getId()}" th:value="${task.getId()}" id="chatId" placeholder="ChatId" autocomplete="off" class="form-control" ></input>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="accent username-submit">Start Chatting</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="chat-page" class="hidden">
+        <div class="chat-container">
+            <div class="chat-header">
+                <h2>Чат</h2>
+            </div>
+            <div class="connecting">
+                Connecting...
+            </div>
+            <ul id="messageArea">
+
+            </ul>
+            <form id="messageForm" name="messageForm" nameForm="messageForm">
+                <div class="form-group">
+                    <div class="input-group clearfix">
+                        <input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
+                        <button type="submit" class="primary">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Все заказы</title>
+</head>
+<body>
+
+<div th:each="task : ${taskAll}">
+
+    <a th:href="@{/task/{id}(id=${task.getId()})}"
+       th:text="${task.getName() + ', ' + task.getStatus()}"> Order </a>
+
+</div>
+
+<br/>
+
+</body>
+</html>

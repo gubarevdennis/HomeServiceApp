@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Обновить жителя</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/resident/{id}(id=${resident.getId()})}" th:object="${resident}">
+    <label for="name">Имя жителя: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error message</div>
+    <br/>
+    <label for="apartmentNumber">Номер квартиры: </label>
+    <input type="text" th:field="*{apartmentNumber}" id="apartmentNumber"/>
+    <div style="color:red"  th:if="${#fields.hasErrors('apartmentNumber')}" th:errors="*{apartmentNumber}">Error message</div>
+    <br/>
+    <label for="information">Дополлнительная информация: </label>
+    <input type="text" th:field="*{information}" id="information"/>
+    <div style="color:red"  th:if="${#fields.hasErrors('information')}" th:errors="*{information}">Error message</div>
+    <br/>
+    <label for="dateAndTimeOfCreate">Время создания аккаунта жителя: </label>
+    <input type="text" th:field="*{dateAndTimeOfCreate}" id="dateAndTimeOfCreate"/>
+    <div style="color:red" th:if="${#fields.hasErrors('dateAndTimeOfCreate')}" th:errors="*{dateAndTimeOfCreate}">Error message</div>
+    <br/>
+    <input type="submit" value="Обновить информацию"/>
+</form>
+
+</body>
+</html>

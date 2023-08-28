@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Resident</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/logout}">
+    <input type="submit" value="Выйти">
+</form>
+
+<br/>
+<br/>
+
+<h3> ФИО жителя: </h3><p th:text="${resident.getName()}" >value</p>
+<h3> ID жителя: </h3><p th:text="${resident.getId()}" >value</p>
+<h3> Дополнительная информация: </h3><p th:text="${resident.getInformation()}" >value</p>
+<h3> Номер квартиры: </h3><p th:text="${resident.getApartmentNumber()}" >value</p>
+<h3> Дата создания аккаунта жителя: </h3><p th:text="${resident.getDateAndTimeOfCreate()}" >value</p>
+<br/>
+
+<a th:href="@{/resident/edit/{id}(id=${resident.getId()})}">Edit</a>
+
+<br/>
+
+<form th:method="DELETE" th:action="@{/resident/{id}(id=${resident.getId()})}">
+    <br/>
+    <input type="submit" value="Удалить жителя"/>
+</form>
+
+<br/>
+<hr/>
+
+<h3> Заказы жителя: </h3>
+
+<div th:each="task : ${assignedTask}">
+
+    <a th:href="@{/task/{id}(id=${task.getId()})}"
+       th:text="${task.getName() + ', ' + task.getStatus()}"> User </a>
+
+</div>
+
+<br/>
+<hr/>
+
+<h3> Создать заказ: </h3>
+
+<form th:method="POST" th:action="@{/task/assign/{id}(id=${resident.getId()})}" th:object="${task}">
+    <label for="name">Название заказа: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error message</div>
+    <br/>
+    <label for="message">Описание: </label>
+    <input type="text" th:field="*{message}" id="message"/>
+    <br/>
+    <input type="submit" value="Создать заказ"/>
+</form>
+
+</body>
+</html>

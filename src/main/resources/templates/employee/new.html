@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Новый работник</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/employee}" th:object="${employee}">
+    <label for="name">Имя работника: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error message</div>
+    <br/>
+    <label for="password">Пароль: </label>
+    <input type="text" th:field="*{password}" id="password"/>
+    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error message</div>
+    <br/>
+    <label for="position">Должность: </label>
+    <input type="text" th:field="*{position}" id="position"/>
+    <div style="color:red"  th:if="${#fields.hasErrors('position')}" th:errors="*{position}">Error message</div>
+    <br/>
+    <label for="company">Компания: </label>
+    <input type="text" th:field="*{company}" id="company"/>
+    <div style="color:red"  th:if="${#fields.hasErrors('company')}" th:errors="*{company}">Error message</div>
+    <br/>
+    <label for="information">Дополнительная информация: </label>
+    <input type="text" th:field="*{information}" id="information"/>
+    <div style="color:red"  th:if="${#fields.hasErrors('information')}" th:errors="*{information}">Error message</div>
+    <br/>
+    <input type="submit" value="Добавить работника"/>
+</form>
+
+</body>
+</html>

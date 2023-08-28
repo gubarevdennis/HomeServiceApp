@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Make Administrator</title>
+</head>
+<body>
+
+<form th:method="PATCH" th:action="@{/admin/add}">
+    <label for="resident">Choose person for Admin: </label>
+    <br/>
+    <select th:object="${resident}" th:field="*{id}" id="resident">
+        <option th:each="resident : ${residentAll}" th:value="${resident.getRole()}"
+                th:text="${resident.getName()}"></option>
+    </select>
+    <br/>
+    <input type="submit" value="Make Admin" />
+
+</form>
+
+</body>
+</html>

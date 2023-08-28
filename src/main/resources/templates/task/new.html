@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Новый заказ</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/task}" th:object="${task}">
+    <label for="name">Название заказа: </label>
+    <input type="text" th:field="*{name}" id="name"/>
+    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error message</div>
+    <br/>
+    <label for="message">Описание: </label>
+    <input type="text" th:field="*{message}" id="message"/>
+    <div style="color:red"  th:if="${#fields.hasErrors('message')}" th:errors="*{message}">Error message</div>
+    <br/>
+    <input type="submit" value="Create!"/>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Все жители</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/logout}">
+    <input type="submit" value="Выйти">
+</form>
+
+<br/>
+<br/>
+
+<div th:each="resident : ${residentAll}">
+
+    <a th:href="@{/resident/{id}(id=${resident.getId()})}"
+    th:text="${resident.getName() + ', ' + resident.getApartmentNumber()}"> User </a>
+
+</div>
+
+<br/>
+<hr/>
+
+<a href="/resident/new">Добавить жителя</a>
+
+</body>
+</html>
